@@ -7,7 +7,10 @@ let maxguesses = 10;
 //Funcion de inicio , numero aleatorios
 function init() {
   computerNumber = Math.floor(Math.random() * 100 + 1);
- // console.log(computerNumber);
+  console.log(computerNumber);
+}
+function newGame() {
+    window.location.reload();
 }
 
 function compareNumbers() {
@@ -31,11 +34,14 @@ function compareNumbers() {
             document.getElementById("textOutput").innerHTML = "You win!";
             attemps++;
             document.getElementById("attempts").innerHTML = attemps;
+            document.getElementById("inputBox").setAttribute("Reaonly", "Reaonly");
+
         }
     }
     else {
         document.getElementById("textOutput").innerHTML = "You lose! The computer user: " + computerNumber;
-        
+        document.getElementById("inputBox").setAttribute("Reaonly", "Reaonly");
+
      }
     
 }
