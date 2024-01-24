@@ -6,36 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="style.css" />
     <title>Guess the number</title>
-  </head  >
+  </head>
   <body onload="init()">
     <main>
-      <div id="welcomeScreen">
-        <h2>Guess the Number <br />1 - 100</h2>
-      </div>
-
       <div id="gameArea">
+        <div id="welcomeScreen">
+          <h2>Insira seu PIN<br /> </h2>
+        </div>
         <section>
-          <h3 id="textOutput">Your Guess:</h3>
-          <input type="number" id="inputBox" min="1" max="999999" onchange="compareNumbers()" />
-
+          <h3 id="textOutput">Seu palpite:</h3>
+          <div class="input-container">
+            <input type="number" id="inputBox" min="1" max="999999" onchange="compareNumbers()" />
+            <select id="numOfDigits" onchange="init()">
+              <option value="2">2 Dígitos</option>
+              <option value="4" selected>4 Dígitos</option>
+              <option value="6">6 Dígitos</option>
+            </select>
+          </div>
         </section>
         <section class="stats">
           <div class="info">
-            <p>Number of attempts:</p>
+            <p>Número de tentativas: </p>
             <span id="attempts">0</span>
           </div>
           <div class="info">
-            <p>Your guesses:</p>
+            <p>Seus palpites: </p>
             <span id="guesses">0</span>
           </div>
         </section>
-        <button id="newGameButton" onclick="newGame()">NEW GAME</button>
-        <select id="numOfDigits" onchange="init()">
-          <option value="2">2 Digits</option>
-          <option value="4" selected>4 Digits</option>
-          <option value="6">6 Digits</option>
-        </select>
         
+        <button id="newGameButton" onclick="newGame()">Gerar novo pin</button>
       </div>
     </main>
     <script src="index.js"></script>
