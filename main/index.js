@@ -1,51 +1,98 @@
 let computerNumber;
 let userNumbers = [];
-let attempts = 0; // Corregí aquí de attemps a attempts
-let maxGuesses = 10; // Corregí aquí de maxguesses a maxGuesses
+let attempts = 0;
+const maxGuesses = 10;
+const proximityThreshold = 0.1; // 10%
 
-// Funcion de inicio, número aleatorio
 function init() {
-    // Generar un número aleatorio entre 1000 y 9999 (ambos incluidos)
-    computerNumber = Math.floor(Math.random() * (9999 - 1000 + 1) + 1000);
+    computerNumber = generateRandomNumber(1000, 9999);
     console.log(computerNumber);
 }
-
 
 function newGame() {
     window.location.reload();
 }
 
 function compareNumbers() {
-    const userNumber = Number(document.getElementById("inputBox").value);
+    const userNumber = getUserNumber();
 
-    // Verificar que el número tenga exactamente 4 cifras
-    if (userNumber >= 1000 && userNumber <= 9999) {
-        userNumbers.push(" " + userNumber);
-        document.getElementById("guesses").innerHTML = userNumbers;
-
+    if (isValidNumber(userNumber)) {
+        userNumbers.push(userNumber);
+        updateGuessesDisplay();
+        
         if (attempts < maxGuesses) {
-            if (userNumber > computerNumber) {
-                document.getElementById("textOutput").innerHTML = "Too high";
-                document.getElementById("inputBox").value = "";
-                attempts++;
-                document.getElementById("attempts").innerHTML = attempts;
-            } else if (userNumber < computerNumber) {
-                document.getElementById("textOutput").innerHTML = "Too low";
-                document.getElementById("inputBox").value = "";
-                attempts++;
-                document.getElementById("attempts").innerHTML = attempts;
-            } else {
-                document.getElementById("textOutput").innerHTML = "You win!";
-                attempts++;
-                document.getElementById("attempts").innerHTML = attempts;
-                document.getElementById("inputBox").setAttribute("readonly", "readonly");
-            }
+            handleGuess(userNumber);
         } else {
-            document.getElementById("textOutput").innerHTML = "You lose! The computer used: " + computerNumber;
-            document.getElementById("inputBox").setAttribute("readonly", "readonly");
+            endGame("You lose! The computer used: " + computerNumber);
         }
     } else {
         alert("Enter a 4-digit number.");
-        document.getElementById("inputBox").value = ""; // Limpiar el campo de entrada
+        clearInputBox();
     }
+}
+
+function generateRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function getUserNumber() {
+    return Number(document.getElementById("inputBox").value);
+}
+
+function isValidNumber(number) {
+    return number >= 1000 && number <= 9999;
+}
+
+function updateGuessesDisplay() {
+    document.getElementById("guesses").innerHTML = userNumbers.join(" ");
+}
+
+function handleGuess(userNumber) {
+    if (userNumber > computerNumber) {
+        updateOutput("Too high");
+        checkProximity(userNumber);
+    } else if (userNumber < computerNumber) {
+        updateOutput("Too low");
+        checkProximity(userNumber);
+    } else {
+        endGame("You win!");
+    }
+    
+    attempts++;
+    updateAttemptsDisplay();
+
+    if (userNumber === computerNumber) {
+        document.getElementById("inputBox").setAttribute("readonly", "readonly");
+    }
+}
+
+function checkProximity(userNumber) {
+    const difference = Math.abs(computerNumber - userNumber);
+    const thresholdValue = computerNumber * proximityThreshold;
+
+    if (difference <= thresholdValue) {
+        if (userNumber > computerNumber) {
+            updateOutput("A bit lower");
+        } else {
+            updateOutput("A bit higher");
+        }
+    }
+}
+
+function updateOutput(message) {
+    document.getElementById("textOutput").innerHTML = message;
+    clearInputBox();
+}
+
+function endGame(message) {
+    updateOutput(message);
+    document.getElementById("inputBox").setAttribute("readonly", "readonly");
+}
+
+function clearInputBox() {
+    document.getElementById("inputBox").value = "";
+}
+
+function updateAttemptsDisplay() {
+    document.getElementById("attempts").innerHTML = attempts;
 }
