@@ -46,7 +46,7 @@ function getUserNumber() {
     return Number(document.getElementById("inputBox").value);
 }
 
-// ... (código anterior)
+
 
 function isValidNumber(number) {
     const selectElement = document.getElementById("numOfDigits");
@@ -55,7 +55,7 @@ function isValidNumber(number) {
     const numString = number.toString();
     return !isNaN(number) && numString.length === numOfDigits;
 }
-// ... (resto del código)
+
 
 
 function updateGuessesDisplay() {
