@@ -30,10 +30,10 @@ function compareNumbers() {
         if (attempts < maxGuesses) {
             handleGuess(userNumber);
         } else {
-            endGame("You lose! The computer used: " + computerNumber);
+            endGame("Você perdeu! O computador usou: " + computerNumber);
         }
     } else {
-        alert("Enter a valid number.");
+        alert("Insira um número válido.");
         clearInputBox();
     }
 }
@@ -72,13 +72,13 @@ function handleGuess(userNumber) {
 
     if (isValidNumber(userNumber, minNumber, maxNumber)) {
         if (userNumber > computerNumber) {
-            updateOutput("Too high");
+            updateOutput("Muito alto");
             checkProximity(userNumber);
         } else if (userNumber < computerNumber) {
-            updateOutput("Too low");
+            updateOutput("Muito baixo");
             checkProximity(userNumber);
         } else {
-            endGame("You win!");
+            endGame("Você ganhou!");
         }
 
         attempts++;
@@ -99,9 +99,9 @@ function checkProximity(userNumber) {
 
     if (difference <= thresholdValue) {
         if (userNumber > computerNumber) {
-            updateOutput("A bit lower");
+            updateOutput("Um pouco mais baixo");
         } else {
-            updateOutput("A bit higher");
+            updateOutput("Um pouco mais alto");
         }
     }
 }

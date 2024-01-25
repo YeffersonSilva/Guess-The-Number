@@ -1,6 +1,6 @@
 :root {
-  --green: #5ed68a;
-  --red: #ff7171;
+  --green: #5e6ad6;
+  --red: #7371ff;
   --background: #f8f8f8;
   --gradient-1: #2a3352;
   --gradient-2: #1e243b;
@@ -154,21 +154,26 @@ input, select {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  color: blue; /* Cambia aquí a tu color azul preferido */
 }
 
 /* ... (resto del CSS) */
 
 
 /* Select styling */
+/* ... (resto del CSS) */
 
 select {
   border: 2px solid var(--green);
   padding: 1rem;
   font-size: 1.6rem;
-  color: var(--green);
+  color: rgb(9, 230, 101); /* Cambia aquí a tu color azul preferido */
   border-radius: 0.3rem;
   background: transparent;
 }
+
+/* ... (resto del CSS) */
+
 
 @media (min-width: 800px) {
   body {
