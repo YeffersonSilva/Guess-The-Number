@@ -1,44 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../main/styles/style.css" />
     <title>Guess the number</title>
-  </head>
-  <body onload="init()">
+</head>
+<body>
     <main>
-      <div id="gameArea">
-        <div id="welcomeScreen">
-          <h2>Insira seu PIN<br /> </h2>
+        <div id="gameArea">
+            <div id="welcomeScreen">
+                <h2>Insira seu PIN<br /> </h2>
+            </div>
+            <section>
+                <h3 id="textOutput">Seu palpite:</h3>
+                <div class="input-container">
+                    <input type="number" id="inputBox" min="1" max="999999" onchange="game.compareNumbers()" />
+                    <select id="numOfDigits" onchange="game.init()">
+                        <option value="4" selected>4 Dígitos</option>
+                        <option value="6">6 Dígitos</option>
+                        <option value="8">8 Dígitos</option>
+                    </select>
+                </div>
+            </section>
+            <section class="stats">
+                <div class="info">
+                    <p>Número de tentativas: </p>
+                    <span id="attempts">0</span>
+                </div>
+                <div class="info">
+                    <p>Seus palpites: </p>
+                    <span id="guesses">0</span>
+                </div>
+            </section>
+            
+            <button id="newGameButton" onclick="game.newGame()">Gerar novo pin</button>
         </div>
-        <section>
-          <h3 id="textOutput">Seu palpite:</h3>
-          <div class="input-container">
-            <input type="number" id="inputBox" min="1" max="999999" onchange="compareNumbers()" />
-            <select id="numOfDigits" onchange="init()">
-              <option value="2">2 Dígitos</option>
-              <option value="4" selected>4 Dígitos</option>
-              <option value="6">6 Dígitos</option>
-              <option value="8">8 Dígitos</option>
-            </select>
-          </div>
-        </section>
-        <section class="stats">
-          <div class="info">
-            <p>Número de tentativas: </p>
-            <span id="attempts">0</span>
-          </div>
-          <div class="info">
-            <p>Seus palpites: </p>
-            <span id="guesses">0</span>
-          </div>
-        </section>
-        
-        <button id="newGameButton" onclick="newGame()">Gerar novo pin</button>
-      </div>
     </main>
-    <script src="index.js"></script>
-  </body>
+ 
+    <script src="../main/scripts/NumberGuessingGame.js"></script>
+    <script src="../main/scripts/main.js"></script>
+</body>
 </html>

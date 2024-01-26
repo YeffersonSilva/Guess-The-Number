@@ -1,121 +1,129 @@
-let computerNumber;
-let userNumbers = [];
-let attempts = 0;
-const maxGuesses = 10;
-const proximityThreshold = 0.1; // 10%
+class NumberGuessingGame {
+  constructor(maxGuesses, proximityThreshold) {
+    this.maxGuesses = maxGuesses;
+    this.proximityThreshold = proximityThreshold;
+    this.computerNumber = null;
+    this.userNumbers = [];
+    this.attempts = 0;
+  }
 
-function init() {
-  const selectElement = document.getElementById("numOfDigits");
-  const selectedOption = selectElement.options[selectElement.selectedIndex];
-  const numOfDigits = parseInt(selectedOption.value, 10);
+  init() {
+    const selectElement = document.getElementById("numOfDigits");
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    const numOfDigits = parseInt(selectedOption.value, 10);
 
-  const minNumber = 10 ** (numOfDigits - 1);
-  const maxNumber = 10 ** numOfDigits - 1;
+    const minNumber = Math.pow(10, numOfDigits - 1);
+    const maxNumber = Math.pow(10, numOfDigits) - 1;
 
-  computerNumber = generateRandomNumber(minNumber, maxNumber);
-  console.log(computerNumber);
-}
+    this.computerNumber = this.generateRandomNumber(minNumber, maxNumber);
+    console.log(this.computerNumber);
+  }
 
-function newGame() {
-  window.location.reload();
-}
+  newGame() {
+    window.location.reload();
+  }
 
-function compareNumbers() {
-  const userNumber = getUserNumber();
+  compareNumbers() {
+    const userNumber = this.getUserNumber();
 
-  if (isValidNumber(userNumber)) {
-    userNumbers.push(userNumber);
-    updateGuessesDisplay();
+    if (this.isValidNumber(userNumber)) {
+      this.userNumbers.push(userNumber);
+      this.updateGuessesDisplay();
 
-    if (attempts < maxGuesses) {
-      handleGuess(userNumber);
+      if (this.attempts < this.maxGuesses) {
+        this.handleGuess(userNumber);
+      } else {
+        this.endGame("Você perdeu! O computador usou: " + this.computerNumber);
+      }
     } else {
-      endGame("Você perdeu! O computador usou: " + computerNumber);
+      alert("Insira um número válido.");
+      this.clearInputBox();
     }
-  } else {
-    alert("Insira um número válido.");
-    clearInputBox();
+  }
+
+  generateRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  getUserNumber() {
+    return Number(document.getElementById("inputBox").value);
+  }
+
+  isValidNumber(number) {
+    const selectElement = document.getElementById("numOfDigits");
+    const numOfDigits = parseInt(selectElement.value, 10);
+
+    const numString = number.toString();
+    return !isNaN(number) && numString.length === numOfDigits;
+  }
+
+  updateGuessesDisplay() {
+    document.getElementById("guesses").innerHTML = this.userNumbers.join(" ");
+  }
+
+  handleGuess(userNumber) {
+    const selectElement = document.getElementById("numOfDigits");
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    const numOfDigits = parseInt(selectedOption.value, 10);
+
+    const minNumber = Math.pow(10, numOfDigits - 1);
+    const maxNumber = Math.pow(10, numOfDigits) - 1;
+
+    if (this.isValidNumber(userNumber, minNumber, maxNumber)) {
+      if (userNumber > this.computerNumber) {
+        this.updateOutput("Muito alto");
+        this.checkProximity(userNumber);
+      } else if (userNumber < this.computerNumber) {
+        this.updateOutput("Muito baixo");
+        this.checkProximity(userNumber);
+      } else {
+        this.endGame("Você ganhou!");
+      }
+
+      this.attempts++;
+      this.updateAttemptsDisplay();
+
+      if (userNumber === this.computerNumber) {
+        document.getElementById("inputBox").setAttribute("readonly", "readonly");
+      }
+    } else {
+      alert("Enter a valid number within the specified range.");
+      this.clearInputBox();
+    }
+  }
+
+  checkProximity(userNumber) {
+    const difference = Math.abs(this.computerNumber - userNumber);
+    const thresholdValue = this.computerNumber * this.proximityThreshold + 1;
+
+    if (difference <= thresholdValue) {
+      if (userNumber > this.computerNumber) {
+        this.updateOutput("Um pouco mais baixo");
+      } else {
+        this.updateOutput("Um pouco mais alto");
+      }
+    }
+  }
+
+  updateOutput(message) {
+    document.getElementById("textOutput").innerHTML = message;
+    this.clearInputBox();
+  }
+
+  endGame(message) {
+    this.updateOutput(message);
+    document.getElementById("inputBox").setAttribute("readonly", "readonly");
+  }
+
+  clearInputBox() {
+    document.getElementById("inputBox").value = "";
+  }
+
+  updateAttemptsDisplay() {
+    document.getElementById("attempts").innerHTML = this.attempts;
   }
 }
 
-function generateRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function getUserNumber() {
-  return Number(document.getElementById("inputBox").value);
-}
-
-function isValidNumber(number) {
-  const selectElement = document.getElementById("numOfDigits");
-  const numOfDigits = parseInt(selectElement.value, 10);
-
-  const numString = number.toString();
-  return !isNaN(number) && numString.length === numOfDigits;
-}
-
-function updateGuessesDisplay() {
-  document.getElementById("guesses").innerHTML = userNumbers.join(" ");
-}
-
-function handleGuess(userNumber) {
-  const selectElement = document.getElementById("numOfDigits");
-  const selectedOption = selectElement.options[selectElement.selectedIndex];
-  const numOfDigits = parseInt(selectedOption.value, 10);
-
-  const minNumber = 10 ** (numOfDigits - 1);
-  const maxNumber = 10 ** numOfDigits - 1;
-
-  if (isValidNumber(userNumber, minNumber, maxNumber)) {
-    if (userNumber > computerNumber) {
-      updateOutput("Muito alto");
-      checkProximity(userNumber);
-    } else if (userNumber < computerNumber) {
-      updateOutput("Muito baixo");
-      checkProximity(userNumber);
-    } else {
-      endGame("Você ganhou!");
-    }
-
-    attempts++;
-    updateAttemptsDisplay();
-
-    if (userNumber === computerNumber) {
-      document.getElementById("inputBox").setAttribute("readonly", "readonly");
-    }
-  } else {
-    alert("Enter a valid number within the specified range.");
-    clearInputBox();
-  }
-}
-
-function checkProximity(userNumber) {
-  const difference = Math.abs(computerNumber - userNumber);
-  const thresholdValue = computerNumber * proximityThreshold + 1;
-
-  if (difference <= thresholdValue) {
-    if (userNumber > computerNumber) {
-      updateOutput("Um pouco mais baixo");
-    } else {
-      updateOutput("Um pouco mais alto");
-    }
-  }
-}
-
-function updateOutput(message) {
-  document.getElementById("textOutput").innerHTML = message;
-  clearInputBox();
-}
-
-function endGame(message) {
-  updateOutput(message);
-  document.getElementById("inputBox").setAttribute("readonly", "readonly");
-}
-
-function clearInputBox() {
-  document.getElementById("inputBox").value = "";
-}
-
-function updateAttemptsDisplay() {
-  document.getElementById("attempts").innerHTML = attempts;
-}
+// Uso de la clase
+const game = new NumberGuessingGame(10, 0.1);
+game.init();
