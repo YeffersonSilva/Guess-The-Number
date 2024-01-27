@@ -1,5 +1,3 @@
-// NumberGuessingGame.js
-
 class NumberGuessingGame {
     constructor(maxGuesses, proximityThreshold) {
         this.maxGuesses = maxGuesses;
@@ -16,7 +14,8 @@ class NumberGuessingGame {
         const minNumber = Math.pow(10, numOfDigits - 1);
         const maxNumber = Math.pow(10, numOfDigits) - 1;
         this.computerNumber = this.generateRandomNumber(minNumber, maxNumber);
-        console.log(this.computerNumber);
+        console.log("Número generado: " + this.computerNumber); // Para depuración
+
     }
 
     newGame() {
@@ -24,7 +23,15 @@ class NumberGuessingGame {
     }
 
     compareNumbers() {
-        const userNumber = this.getUserNumber();
+        const userInput = this.getUserNumber();
+
+        if (userInput.includes('-') || userInput.includes('+')) {
+            alert("Por favor, ingrese solo números enteros positivos.");
+            this.clearInputBox();
+            return;
+        }
+
+        const userNumber = Number(userInput);
 
         if (this.isValidNumber(userNumber)) {
             this.userNumbers.push(userNumber);
@@ -36,7 +43,7 @@ class NumberGuessingGame {
                 this.endGame("Você perdeu! O computador usou: " + this.computerNumber);
             }
         } else {
-            alert("Insira um número válido.");
+            alert("Por favor, ingrese solo números enteros.");
             this.clearInputBox();
         }
     }
@@ -46,14 +53,18 @@ class NumberGuessingGame {
     }
 
     getUserNumber() {
-        return Number(document.getElementById("inputBox").value);
+        return document.getElementById("inputBox").value.trim();
     }
 
     isValidNumber(number) {
+        if (isNaN(number) || !Number.isInteger(number)) {
+            return false;
+        }
+
         const selectElement = document.getElementById("numOfDigits");
         const numOfDigits = parseInt(selectElement.value, 10);
         const numString = number.toString();
-        return !isNaN(number) && numString.length === numOfDigits;
+        return numString.length === numOfDigits;
     }
 
     updateGuessesDisplay() {
@@ -67,11 +78,14 @@ class NumberGuessingGame {
         const minNumber = Math.pow(10, numOfDigits - 1);
         const maxNumber = Math.pow(10, numOfDigits) - 1;
 
+        // Convertir userNumber a número para comparaciones
+        const userNumAsNumber = parseInt(userNumber, 10);
+
         if (this.isValidNumber(userNumber, minNumber, maxNumber)) {
-            if (userNumber > this.computerNumber) {
+            if (userNumAsNumber > this.computerNumber) {
                 this.updateOutput("Muito alto");
                 this.checkProximity(userNumber);
-            } else if (userNumber < this.computerNumber) {
+            } else if (userNumAsNumber < this.computerNumber) {
                 this.updateOutput("Muito baixo");
                 this.checkProximity(userNumber);
             } else {
@@ -81,7 +95,7 @@ class NumberGuessingGame {
             this.attempts++;
             this.updateAttemptsDisplay();
 
-            if (userNumber === this.computerNumber) {
+            if (userNumAsNumber === this.computerNumber) {
                 document.getElementById("inputBox").setAttribute("readonly", "readonly");
             }
         } else {
@@ -91,11 +105,11 @@ class NumberGuessingGame {
     }
 
     checkProximity(userNumber) {
-        const difference = Math.abs(this.computerNumber - userNumber);
+        const difference = Math.abs(this.computerNumber - parseInt(userNumber, 10));
         const thresholdValue = this.computerNumber * this.proximityThreshold + 1;
 
         if (difference <= thresholdValue) {
-            if (userNumber > this.computerNumber) {
+            if (parseInt(userNumber, 10) > this.computerNumber) {
                 this.updateOutput("Um pouco mais baixo");
             } else {
                 this.updateOutput("Um pouco mais alto");
