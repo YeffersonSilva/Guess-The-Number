@@ -6,7 +6,8 @@ Welcome to the game, an interactive web adventure that challenges users to guess
 
 ### Captura de tela
 
-![image](https://github.com/YeffersonSilva/Guess-The-Number.git)
+![image](https://github.com/YeffersonSilva/Guess-The-Number/assets/117882117/0095acf2-1ee8-4fc7-a0a3-0447e5c0e61e)
+)
 
 
 
