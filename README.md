@@ -15,7 +15,7 @@ Welcome to the game, an interactive web adventure that challenges users to guess
 To install and run the project locally, follow these steps:
 
 ```bash
-git clone [https://github.com/Compass-pb-aws-2024-IFSUL-UFERSA/sprint-1-pb-aws-ifsul-ufersa.git](https://github.com/YeffersonSilva/Guess-The-Number.git)
+git clone (https://github.com/YeffersonSilva/Guess-The-Number.git)
 cd proyect
 # Abra o arquivo index.html no seu navegador
 ```
