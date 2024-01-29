@@ -49,14 +49,3 @@ Download the live server in Visual Studio for a better experience.
 
 ## 👥 Collaborators
 - Yefferson Silva - https://github.com/YeffersonSilva
-
-
-
-
-
-
-
-- **Geração de Pins Aleatórios:** Implementar um sistema que gerasse pins aleatórios de forma eficaz, mantendo a jogabilidade justa e interessante, foi mais complexo do que inicialmente antecipado.
-
-- **Feedback Instantâneo:** Desenvolver um sistema de feedback que fosse tanto instantâneo quanto útil para o jogador sem dar demasiadas pistas sobre o pin correto exigiu um equilíbrio cuidadoso.
-
