@@ -6,7 +6,7 @@ Welcome to the game, an interactive web adventure that challenges users to guess
 
 ### Captura de tela
 
-![image](https://github.com/Compass-pb-aws-2024-IFSUL-UFERSA/sprint-1-pb-aws-ifsul-ufersa/assets/117882117/0b8f1cb8-8e74-4f86-b9de-e3cd2b1ff87c)
+![image](https://github.com/YeffersonSilva/Guess-The-Number.git)
 
 
 
